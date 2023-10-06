@@ -1,0 +1,62 @@
+service: inlamning
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  profile: Sebban
+  region: eu-north-1
+  runtime: nodejs18.x
+  iam:
+    role: arn:aws:iam::277117890175:role/lambda-access-role
+
+plugins:
+  - serverless-webpack
+
+package:
+  individually: true
+
+resources:
+  Resources:
+    MusicGearTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: music-item-table
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+functions:
+  createItem:
+    handler: functions/create/index.handler
+    events:
+      - httpApi:
+          path: /api/music-items
+          method: POST
+
+  readItem:
+    handler: functions/read/index.handler
+    events:
+      - httpApi:
+          path: /api/music-items
+          method: GET
+
+  updateItem:
+    handler: functions/update/index.handler
+    events:
+      - httpApi:
+          path: /api/music-items/{gearId}
+          method: POST
+
+  deleteItem:
+    handler: functions/delete/index.handler
+    events:
+      - httpApi:
+          path: /api/music-items/{gearId}
+          method: DELETE
+
+
+
