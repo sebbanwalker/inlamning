@@ -1,72 +1,21 @@
-<!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+Jag har gjort en CRUD-API för musikobjekt. Den tar emot musikpryl och typ. Så i JSON-bodyn på Create/Add så kan man skriva följande:
 
-
-# Serverless Framework AWS NodeJS Example
-
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
-
-## Usage
-
-### Deployment
-
-In order to deploy the example, you need to run the following command:
-
-```
-$ serverless deploy
-```
-
-After running deploy, you should see output similar to:
-
-```bash
-Deploying aws-node-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-project-dev (112s)
-
-functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
-```
-
-### Invocation
-
-After successful deployment, you can invoke the deployed function by using the following command:
-
-```bash
-serverless invoke --function hello
-```
-
-Which should result in response similar to the following:
-
-```json
 {
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
+	"gear": "Gibson Les Paul",
+	"type": "Guitar"
 }
-```
 
-### Local development
 
-You can invoke your function locally by using the following command:
+API Endpoint: https://xjqfwdy5gc.execute-api.eu-north-1.amazonaws.com/api/music-items
 
-```bash
-serverless invoke local --function hello
-```
+Denna fungerar för all Create, Read, Update och Delete.
 
-Which should result in response similar to the following:
+Om man ska använda Update eller Delete så måste man hämta ID genom Get-funktionen och kopiera ID från objektet, man lägger till det i ändelsen som /gearID. T.ex:
 
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+https://xjqfwdy5gc.execute-api.eu-north-1.amazonaws.com/api/music-items/IdFörPrylDuVillÄndra
+
+Ifall du stöter på några problem, har jag i värsta fall laddat upp en video som går igenom funktionaliteten:
+https://www.youtube.com/watch?v=4OY194IJW1U
+
+Jag har lagt till authorization genom IAM Auth på API Gateway, nycklarna du behöver för tillgång till Lambdafunktiorna hittar du i kommentaren på inlämningen.
+
